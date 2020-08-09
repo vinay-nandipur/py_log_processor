@@ -32,7 +32,7 @@ with gzip.open(base_name, 'rb') as f_in:
     with open(new_filename, 'wb') as f_out:
         shutil.copyfileobj(f_in, f_out)
 
-
+"""
 #Define functions
 
 def formated_data(line):
@@ -56,3 +56,31 @@ if __name__ == "__main__":
     log_report = final_report(infile)
     print (log_report)
     infile.close()
+"""
+
+#Bytes stats will be written to bytes_<filename>.txt
+
+if __name__ == "__main__":
+    try:
+        infile = open(new_filename, 'r', errors='ignore')
+    except IOError:
+        print ("You must specify a valid file to parse")
+        sys.exit(1)
+    byte_data = []
+    for line in infile:
+        try:
+            split_line = line.split()
+            bytes = int()
+            bytes = split_line[6]
+            bytes = int(bytes)
+            if bytes >= 5000:
+                byte_data.append(bytes)
+        except:
+            pass
+    print(len(byte_data), sum(byte_data))
+
+    output_filename = 'bytes_' + new_filename
+    with open(output_filename, 'w') as fw:
+        fw.write(str(len(byte_data)))
+        fw.write("\n")
+        fw.write(str(sum(byte_data)))
